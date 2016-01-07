@@ -137,11 +137,11 @@ function do_search(){
 	  success: function(data){
 	  	console.log(data);
 		var search_target = getParameterByName('p');
-		for(var page in data.pages)
+		for(var i=0;i<data.pages.length;i++)
 		{
-			if(page.title.indexOf(search_target)!=-1)
+			if(data.pages[i].title.indexOf(search_target)!=-1)
 			{
-				var result_html = result_tmplate.replace("{{title}}", page.title).replace("{{url}}", page.url)
+				var result_html = result_tmplate.replace("{{title}}", data.pages[i].title).replace("{{url}}", data.pages[i].url)
 				$("#search_result").append(result_html);
 			}
 		}
