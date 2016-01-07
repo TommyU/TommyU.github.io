@@ -131,19 +131,27 @@ function getParameterByName(name) {
 
 function do_search(){
 	var result_tmplate="<article><h2><a href='{{url}}'>{{title}}</a></h2></article>";
+	var search_target = getParameterByName('q');
+	var found_something=false;
+	$("#tipue_search_input").val(search_target);
 	$.ajax({
 	  dataType: "json",
 	  url: "/tipuesearch_content.json",
 	  success: function(data){
 	  	console.log(data);
-		var search_target = getParameterByName('p');
+		
 		for(var i=0;i<data.pages.length;i++)
 		{
 			if(data.pages[i].title.indexOf(search_target)!=-1)
 			{
 				var result_html = result_tmplate.replace("{{title}}", data.pages[i].title).replace("{{url}}", data.pages[i].url)
 				$("#search_result").append(result_html);
+				found_something=true;
 			}
+		}
+		if(!found_something)
+		{
+			$("#search_result").append("oh no! 没有找到任何匹配的文章哦。。。");
 		}
 	  }
 	});
