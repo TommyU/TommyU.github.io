@@ -129,7 +129,9 @@ publish段：增加了cp指令一行，即将生成的html拷贝到本地git路�
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;然后用指令make github即可部署。&lt;br /&gt;
+这样以后可以专注于写作。  &lt;/p&gt;
 &lt;h1&gt;其他&lt;/h1&gt;
 &lt;p&gt;可以根据添加评论系统，第三方图片接入等等。&lt;br /&gt;
-ps:关于自带的disqus代码可能不是最新的。需要自己更新下，修改下theme主题插件的相关模板。
+ps:关于自带的disqus代码可能不是最新的。需要自己更新下，修改下theme主题插件的相关模板。&lt;br /&gt;
 试用了uyan（友言）和disqus，发现ab测试下，uyan快100毫秒。不过发现了一个虫（删掉文章后，相关文章链接仍然被收藏并显示出来了），最后还是选择了disqus。&lt;/p&gt;</summary><category term="github"></category></entry></feed>
