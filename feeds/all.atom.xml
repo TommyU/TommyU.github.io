@@ -131,6 +131,56 @@ publish段：增加了cp指令一行，即将生成的html拷贝到本地git路�
 
 &lt;p&gt;然后用指令make github即可部署。&lt;br /&gt;
 这样以后可以专注于写作。  &lt;/p&gt;
+&lt;h1&gt;关于搜索功能&lt;/h1&gt;
+&lt;p&gt;由于是静态站，所以搜索的实现落在了客户端。&lt;br /&gt;
+思路有不外乎：&lt;br /&gt;
+1. 解析index.html页面并操作dom元素&lt;br /&gt;
+2. 利用插件生成xml/json格式的sitemap，然后ajax请求这些资源并解析，渲染页面。  &lt;/p&gt;
+&lt;p&gt;我的实现方式是2，利用插件tipue_json在生成html时附带生成一个json文件。&lt;br /&gt;
+拷贝index.html页，命名为search.html，做少量修改（略）, 然后在里面加入下面这段代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;script&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+$(function(){
+        do_search();
+});
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, &amp;quot;\\[&amp;quot;).replace(/[\]]/, &amp;quot;\\]&amp;quot;);
+    var regex = new RegExp(&amp;quot;[\\?&lt;span class="err"&gt;&amp;amp;&lt;/span&gt;]&amp;quot; + name + &amp;quot;=([^&lt;span class="err"&gt;&amp;amp;&lt;/span&gt;#]*)&amp;quot;),
+        results = regex.exec(location.search);
+    return results === null ? &amp;quot;&amp;quot; : decodeURIComponent(results[1].replace(/\+/g, &amp;quot; &amp;quot;));
+}
+
+function do_search(){
+        var result_tmplate=&amp;quot;&lt;span class="nt"&gt;&amp;lt;article&amp;gt;&amp;lt;h2&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="nv"&gt;url&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="nv"&gt;title&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&amp;lt;/h2&amp;gt;&amp;lt;/article&amp;gt;&lt;/span&gt;&amp;quot;;
+        var search_target = getParameterByName(&amp;#39;q&amp;#39;);
+        var found_something=false;
+        $(&amp;quot;#tipue_search_input&amp;quot;).val(search_target);
+        $.ajax({
+          dataType: &amp;quot;json&amp;quot;,
+          url: &amp;quot;/tipuesearch_content.json&amp;quot;,
+          success: function(data){
+                console.log(data);
+
+                for(var i=0;i&lt;span class="nt"&gt;&amp;lt;data.pages.length&lt;/span&gt;&lt;span class="err"&gt;;i++)&lt;/span&gt;
+                &lt;span class="err"&gt;{&lt;/span&gt;
+                        &lt;span class="err"&gt;if(data.pages[i].title.indexOf(search_target)!=-1)&lt;/span&gt;
+                        &lt;span class="err"&gt;{&lt;/span&gt;
+                                &lt;span class="err"&gt;var&lt;/span&gt; &lt;span class="na"&gt;result_html =&lt;/span&gt; &lt;span class="s"&gt;result_tmplate.replace(&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="nv"&gt;title&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;,&lt;/span&gt; &lt;span class="err"&gt;data.pages[i].title).replace(&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="nv"&gt;url&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;,&lt;/span&gt; &lt;span class="err"&gt;data.pages[i].url)&lt;/span&gt;
+                                &lt;span class="err"&gt;$(&amp;quot;#search_result&amp;quot;).append(result_html);&lt;/span&gt;
+                                &lt;span class="na"&gt;found_something=&lt;/span&gt;&lt;span class="s"&gt;true;&lt;/span&gt;
+                        &lt;span class="err"&gt;}&lt;/span&gt;
+                &lt;span class="err"&gt;}&lt;/span&gt;
+                &lt;span class="err"&gt;if(!found_something)&lt;/span&gt;
+                &lt;span class="err"&gt;{&lt;/span&gt;
+                        &lt;span class="err"&gt;$(&amp;quot;#search_result&amp;quot;).append(&amp;quot;&amp;lt;h2&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;抱歉! 没有找到任何匹配的文章哦。。。&lt;span class="nt"&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;&amp;quot;);
+                }
+          }
+        });
+}
+&lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h1&gt;其他&lt;/h1&gt;
 &lt;p&gt;可以根据添加评论系统，第三方图片接入等等。&lt;br /&gt;
 ps:关于自带的disqus代码可能不是最新的。需要自己更新下，修改下theme主题插件的相关模板。&lt;br /&gt;

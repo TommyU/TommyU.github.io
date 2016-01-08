@@ -261,6 +261,56 @@ publish段：增加了cp指令一行，即将生成的html拷贝到本地git路�
 
 <p>然后用指令make github即可部署。<br />
 这样以后可以专注于写作。  </p>
+<h1>关于搜索功能</h1>
+<p>由于是静态站，所以搜索的实现落在了客户端。<br />
+思路有不外乎：<br />
+1. 解析index.html页面并操作dom元素<br />
+2. 利用插件生成xml/json格式的sitemap，然后ajax请求这些资源并解析，渲染页面。  </p>
+<p>我的实现方式是2，利用插件tipue_json在生成html时附带生成一个json文件。<br />
+拷贝index.html页，命名为search.html，做少量修改（略）, 然后在里面加入下面这段代码：</p>
+<div class="highlight"><pre><span class="nt">&lt;script</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+$(function(){
+        do_search();
+});
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, &quot;\\[&quot;).replace(/[\]]/, &quot;\\]&quot;);
+    var regex = new RegExp(&quot;[\\?<span class="err">&amp;</span>]&quot; + name + &quot;=([^<span class="err">&amp;</span>#]*)&quot;),
+        results = regex.exec(location.search);
+    return results === null ? &quot;&quot; : decodeURIComponent(results[1].replace(/\+/g, &quot; &quot;));
+}
+
+function do_search(){
+        var result_tmplate=&quot;<span class="nt">&lt;article&gt;&lt;h2&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;</span><span class="cp">{{</span><span class="nv">url</span><span class="cp">}}</span><span class="s">&#39;</span><span class="nt">&gt;</span><span class="cp">{{</span><span class="nv">title</span><span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/h2&gt;&lt;/article&gt;</span>&quot;;
+        var search_target = getParameterByName(&#39;q&#39;);
+        var found_something=false;
+        $(&quot;#tipue_search_input&quot;).val(search_target);
+        $.ajax({
+          dataType: &quot;json&quot;,
+          url: &quot;/tipuesearch_content.json&quot;,
+          success: function(data){
+                console.log(data);
+
+                for(var i=0;i<span class="nt">&lt;data.pages.length</span><span class="err">;i++)</span>
+                <span class="err">{</span>
+                        <span class="err">if(data.pages[i].title.indexOf(search_target)!=-1)</span>
+                        <span class="err">{</span>
+                                <span class="err">var</span> <span class="na">result_html =</span> <span class="s">result_tmplate.replace(&quot;</span><span class="cp">{{</span><span class="nv">title</span><span class="cp">}}</span><span class="s">&quot;,</span> <span class="err">data.pages[i].title).replace(&quot;</span><span class="cp">{{</span><span class="nv">url</span><span class="cp">}}</span><span class="err">&quot;,</span> <span class="err">data.pages[i].url)</span>
+                                <span class="err">$(&quot;#search_result&quot;).append(result_html);</span>
+                                <span class="na">found_something=</span><span class="s">true;</span>
+                        <span class="err">}</span>
+                <span class="err">}</span>
+                <span class="err">if(!found_something)</span>
+                <span class="err">{</span>
+                        <span class="err">$(&quot;#search_result&quot;).append(&quot;&lt;h2</span><span class="nt">&gt;</span>抱歉! 没有找到任何匹配的文章哦。。。<span class="nt">&lt;/h2&gt;</span>&quot;);
+                }
+          }
+        });
+}
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+
 <h1>其他</h1>
 <p>可以根据添加评论系统，第三方图片接入等等。<br />
 ps:关于自带的disqus代码可能不是最新的。需要自己更新下，修改下theme主题插件的相关模板。<br />
