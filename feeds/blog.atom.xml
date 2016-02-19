@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tommy de blog</title><link href="http://tommyu.github.io/" rel="alternate"></link><link href="http://tommyu.github.io/feeds/blog.atom.xml" rel="self"></link><id>http://tommyu.github.io/</id><updated>2015-01-05T20:20:00+08:00</updated><entry><title>大数据</title><link href="http://tommyu.github.io/big_data.html" rel="alternate"></link><updated>2015-01-05T20:20:00+08:00</updated><author><name>Tommy</name></author><id>tag:tommyu.github.io,2015-01-05:big_data.html</id><summary type="html">&lt;h1&gt;什么是大数据&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;海量数据(G-T级)&lt;/li&gt;
+&lt;li&gt;结构化/非结构化数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;来源&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;传感器（黑盒子，各种记录仪器）&lt;/li&gt;
+&lt;li&gt;日志&lt;/li&gt;
+&lt;li&gt;互联网&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;大数据能干嘛&lt;/h2&gt;
+&lt;h3&gt;大数据搜索&lt;/h3&gt;
+&lt;p&gt;应用比如各大搜索引擎&lt;/p&gt;
+&lt;h3&gt;大数据分析&lt;/h3&gt;</summary><category term="blog"></category></entry></feed>
