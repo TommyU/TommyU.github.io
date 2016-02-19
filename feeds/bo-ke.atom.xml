@@ -184,4 +184,18 @@ function do_search(){
 &lt;h1&gt;其他&lt;/h1&gt;
 &lt;p&gt;可以根据添加评论系统，第三方图片接入等等。&lt;br /&gt;
 ps:关于自带的disqus代码可能不是最新的。需要自己更新下，修改下theme主题插件的相关模板。&lt;br /&gt;
-试用了uyan（友言）和disqus，发现ab测试下，uyan快100毫秒。不过发现了一个虫（删掉文章后，相关文章链接仍然被收藏并显示出来了），最后还是选择了disqus。&lt;/p&gt;</summary><category term="github"></category></entry></feed>
+试用了uyan（友言）和disqus，发现ab测试下，uyan快100毫秒。不过发现了一个虫（删掉文章后，相关文章链接仍然被收藏并显示出来了），最后还是选择了disqus。&lt;/p&gt;</summary><category term="github"></category></entry><entry><title>大数据</title><link href="http://tommyu.github.io/big_data.html" rel="alternate"></link><updated>2015-01-05T20:20:00+08:00</updated><author><name>Tommy</name></author><id>tag:tommyu.github.io,2015-01-05:big_data.html</id><summary type="html">&lt;h1&gt;什么是大数据&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;海量数据(G-T级)&lt;/li&gt;
+&lt;li&gt;结构化/非结构化数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;来源&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;传感器（黑盒子，各种记录仪器）&lt;/li&gt;
+&lt;li&gt;日志&lt;/li&gt;
+&lt;li&gt;互联网&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;大数据能干嘛&lt;/h2&gt;
+&lt;h3&gt;大数据搜索&lt;/h3&gt;
+&lt;p&gt;应用比如各大搜索引擎&lt;/p&gt;
+&lt;h3&gt;大数据分析&lt;/h3&gt;</summary><category term="big data"></category></entry></feed>
