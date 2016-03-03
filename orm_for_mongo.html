@@ -169,14 +169,14 @@ Tommy de blog            </a>
             <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">oid</span><span class="c">#str(oid) if oid else None</span>
         <span class="k">else</span><span class="p">:</span><span class="c">#update</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;updated_date&#39;</span><span class="p">:</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span><span class="p">)})</span>
-            <span class="n">oid</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
                 <span class="p">{</span><span class="s">&quot;_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">},</span>
                 <span class="p">{</span>
                     <span class="s">&quot;$set&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                     <span class="c"># &quot;$currentDate&quot;: {&quot;updated_date&quot;: True}</span>
                 <span class="p">}</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">oid</span><span class="c">#str(oid) if oid else None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="c">#str(oid) if oid else None</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">where</span><span class="p">):</span>
@@ -219,7 +219,6 @@ Tommy de blog            </a>
 
     <span class="c">#update test</span>
     <span class="n">u</span><span class="o">.</span><span class="n">age</span><span class="o">=</span><span class="mi">30</span>
-    <span class="n">u</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
     <span class="c">#get test</span>
     <span class="k">print</span> <span class="n">User</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_id</span><span class="o">=</span><span class="n">oid</span><span class="p">)</span>
