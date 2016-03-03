@@ -132,39 +132,51 @@ Tommy de blog            </a>
                 <p>codes here:</p>
 <div class="highlight"><pre><span class="c"># -*- coding:utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+<span class="kn">from</span> <span class="nn">bson.objectid</span> <span class="kn">import</span> <span class="n">ObjectId</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">()</span>
 <span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">test</span>
 <span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">_model</span><span class="o">=</span><span class="s">&#39;&#39;</span>
-    <span class="n">_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;created_date&#39;</span><span class="p">,</span> <span class="s">&#39;updated_date&#39;</span><span class="p">]</span>
+    <span class="n">_fields</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_base_fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;created_date&#39;</span><span class="p">,</span> <span class="s">&#39;updated_date&#39;</span><span class="p">]</span>
     <span class="n">_required_fields</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">=</span><span class="bp">None</span>
-        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+        <span class="n">all_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_fields</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_base_fields</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span><span class="c">#auto fullfill value(s)</span>
+                <span class="n">default_val</span><span class="o">=</span><span class="bp">None</span>
+                <span class="k">if</span> <span class="n">attr</span><span class="o">==</span><span class="s">&#39;created_date&#39;</span><span class="p">:</span>
+                    <span class="n">default_val</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">attr</span><span class="o">==</span><span class="s">&#39;updated_date&#39;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">value</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">attr</span><span class="p">:</span><span class="n">default_val</span><span class="p">})</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span><span class="c">#add attributes to current object</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">=</span><span class="n">value</span>
 
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="s">&#39;_model attribute of </span><span class="si">%s</span><span class="s"> is null or empty&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_model</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">collection_names</span><span class="p">(),</span> <span class="s">&#39;collection </span><span class="si">%s</span><span class="s"> does not exist!&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_required_fields</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_default_values</span><span class="p">()</span>
         <span class="n">model</span> <span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__to_json</span><span class="p">()</span><span class="c">#update data from attrbitutes to self.value</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span><span class="c">#new</span>
             <span class="n">oid</span> <span class="o">=</span>  <span class="n">model</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">model</span> <span class="k">else</span> <span class="bp">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">oid</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">oid</span><span class="c">#str(oid) if oid else None</span>
         <span class="k">else</span><span class="p">:</span><span class="c">#update</span>
-            <span class="n">model</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;updated_date&#39;</span><span class="p">:</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span><span class="p">)})</span>
+            <span class="n">oid</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
                 <span class="p">{</span><span class="s">&quot;_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">},</span>
                 <span class="p">{</span>
                     <span class="s">&quot;$set&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                    <span class="s">&quot;$currentDate&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;updated_date&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+                    <span class="c"># &quot;$currentDate&quot;: {&quot;updated_date&quot;: True}</span>
                 <span class="p">}</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span> <span class="k">if</span> <span class="n">oid</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">oid</span><span class="c">#str(oid) if oid else None</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">where</span><span class="p">):</span>
@@ -191,25 +203,30 @@ Tommy de blog            </a>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_required_fields</span><span class="p">:</span>
             <span class="k">assert</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span><span class="o">==</span><span class="bp">None</span><span class="p">,</span> <span class="s">&#39;field &quot;</span><span class="si">%s</span><span class="s">&quot; of model </span><span class="si">%s</span><span class="s"> is required!&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_model</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_default_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="k">if</span> <span class="n">col</span><span class="o">==</span><span class="s">&#39;created_date&#39;</span><span class="p">:</span>
-                <span class="n">val</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">col</span><span class="p">:</span><span class="n">val</span><span class="p">})</span>
-
-
+    <span class="k">def</span> <span class="nf">__to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">attr</span><span class="p">:</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)})</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields</span><span class="p">]</span>
 
 <span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">_model</span><span class="o">=</span><span class="s">&#39;user&#39;</span>
     <span class="n">_fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;age&#39;</span><span class="p">,</span> <span class="s">&#39;sex&#39;</span><span class="p">]</span>
 
 <span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="mi">38</span><span class="p">)</span>
+    <span class="c">#u = User.get(_id=ObjectId(&quot;56d7bb80e5e7bd21663942e4&quot;))</span>
+
+    <span class="c">#save test</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;tommy&#39;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">29</span><span class="p">)</span>
+    <span class="n">oid</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="c">#update test</span>
+    <span class="n">u</span><span class="o">.</span><span class="n">age</span><span class="o">=</span><span class="mi">30</span>
     <span class="n">u</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-    <span class="k">print</span> <span class="n">u</span><span class="o">.</span><span class="n">age</span>
+
+    <span class="c">#get test</span>
+    <span class="k">print</span> <span class="n">User</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_id</span><span class="o">=</span><span class="n">oid</span><span class="p">)</span>
+
+    <span class="c">#select test</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">User</span><span class="o">.</span><span class="n">select</span><span class="p">():</span>
+        <span class="k">print</span> <span class="n">u</span>
 </pre></div>
             </div>
             <!-- /.entry-content -->
