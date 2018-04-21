@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Tommy's Notes</title><link href="http://tommyu.github.io/" rel="alternate"></link><link href="http://tommyu.github.io/feeds/all.atom.xml" rel="self"></link><id>http://tommyu.github.io/</id><updated>2015-12-03T10:20:00+08:00</updated><entry><title>interface</title><link href="http://tommyu.github.io/golang-interface.html" rel="alternate"></link><published>2015-12-03T10:20:00+08:00</published><updated>2015-12-03T10:20:00+08:00</updated><author><name>Tommy.Yu</name></author><id>tag:tommyu.github.io,2015-12-03:/golang-interface.html</id><summary type="html">&lt;p&gt;golang interface&lt;/p&gt;</summary><content type="html">&lt;h1&gt;interface&lt;/h1&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;// An Expr is an arithmetic expression.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Tommy's Notes</title><link href="http://tommyu.github.io/" rel="alternate"></link><link href="http://tommyu.github.io/feeds/all.atom.xml" rel="self"></link><id>http://tommyu.github.io/</id><updated>2015-12-03T10:20:00+08:00</updated><entry><title>interface</title><link href="http://tommyu.github.io/golang-interfaces.html" rel="alternate"></link><published>2015-12-03T10:20:00+08:00</published><updated>2015-12-03T10:20:00+08:00</updated><author><name>Tommy.Yu</name></author><id>tag:tommyu.github.io,2015-12-03:/golang-interfaces.html</id><summary type="html"></summary><content type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;// An Expr is an arithmetic expression.
 type Expr interface {
     // Eval returns the value of this Expr in the environment env.
     Eval(env Env) float64
     // Check reports errors in this Expr and adds its Vars to the set.
     Check(vars map[Var]bool) error
 }
-&lt;/pre&gt;&lt;/div&gt;</content><category term="golang"></category></entry><entry><title>orm based on pymongo</title><link href="http://tommyu.github.io/orm-based-on-pymongo.html" rel="alternate"></link><published>2015-12-03T10:20:00+08:00</published><updated>2015-12-03T10:20:00+08:00</updated><author><name>Tommy.Yu</name></author><id>tag:tommyu.github.io,2015-12-03:/orm-based-on-pymongo.html</id><summary type="html">&lt;p&gt;pelican plugin&lt;/p&gt;</summary><content type="html">&lt;h1&gt;orm based on pymongo&lt;/h1&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="golang"></category></entry><entry><title>orm based on pymongo</title><link href="http://tommyu.github.io/orm-based-on-pymongo.html" rel="alternate"></link><published>2015-12-03T10:20:00+08:00</published><updated>2015-12-03T10:20:00+08:00</updated><author><name>Tommy.Yu</name></author><id>tag:tommyu.github.io,2015-12-03:/orm-based-on-pymongo.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;orm based on pymongo&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# -*- coding:utf-8 -*-&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pymongo&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MongoClient&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bson.objectid&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ObjectId&lt;/span&gt;
@@ -108,8 +107,7 @@ type Expr interface {
 
     &lt;span class="c1"&gt;#update test (update many)&lt;/span&gt;
     &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;M&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tommy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</content><category term="python"></category></entry><entry><title>github 博客搭建过程</title><link href="http://tommyu.github.io/github-blog-by-pelican.html" rel="alternate"></link><published>2015-12-01T10:20:00+08:00</published><updated>2015-12-01T10:20:00+08:00</updated><author><name>Tommy.Yu</name></author><id>tag:tommyu.github.io,2015-12-01:/github-blog-by-pelican.html</id><summary type="html">&lt;p&gt;blogs&lt;/p&gt;</summary><content type="html">&lt;h1&gt;github 博客搭建过程(pelican)&lt;/h1&gt;
-&lt;h2&gt;准备工作&lt;/h2&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="orm"></category></entry><entry><title>github 博客搭建过程</title><link href="http://tommyu.github.io/github-blog-by-pelican.html" rel="alternate"></link><published>2015-12-01T10:20:00+08:00</published><updated>2015-12-01T10:20:00+08:00</updated><author><name>Tommy.Yu</name></author><id>tag:tommyu.github.io,2015-12-01:/github-blog-by-pelican.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;准备工作&lt;/h2&gt;
 &lt;h3&gt;github account&lt;/h3&gt;
 &lt;p&gt;注册帐号， 然后依照这个&lt;a href="https://pages.github.com/"&gt;指引&lt;/a&gt;创建一个新的仓库，注意命名（username.github.io）;&lt;/p&gt;
 &lt;h3&gt;peclian&lt;/h3&gt;
@@ -343,4 +341,4 @@ github段:没用ghp-import指令，懒得安装这个多余的包。作为弥补
 &lt;h2&gt;其他&lt;/h2&gt;
 &lt;p&gt;可以根据添加评论系统，第三方图片接入等等。
 ps:关于自带的disqus代码可能不是最新的。需要自己更新下，修改下theme主题插件的相关模板。
-试用了uyan（友言）和disqus，发现ab测试下，uyan快100毫秒。不过发现了一个虫（删掉文章后，相关文章链接仍然被收藏并显示出来了），最后还是选择了disqus。&lt;/p&gt;</content><category term="tools"></category></entry></feed>
+试用了uyan（友言）和disqus，发现ab测试下，uyan快100毫秒。不过发现了一个虫（删掉文章后，相关文章链接仍然被收藏并显示出来了），最后还是选择了disqus。&lt;/p&gt;</content></entry></feed>
