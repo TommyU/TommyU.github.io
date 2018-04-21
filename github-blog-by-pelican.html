@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>github 博客搭建过程 - Tommy's Notes</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="http://tommyu.github.io/github-blog-by-pelican.html">
+
+        <meta name="author" content="Tommy.Yu" />
+        <meta name="keywords" content="tools" />
+        <meta name="description" content="blogs" />
+
+        <meta property="og:site_name" content="Tommy's Notes" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="github 博客搭建过程"/>
+        <meta property="og:url" content="http://tommyu.github.io/github-blog-by-pelican.html"/>
+        <meta property="og:description" content="blogs"/>
+        <meta property="article:published_time" content="2015-12-01" />
+            <meta property="article:section" content="tools" />
+            <meta property="article:tag" content="tools" />
+            <meta property="article:author" content="Tommy.Yu" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://tommyu.github.io/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://tommyu.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://tommyu.github.io/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="http://tommyu.github.io/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://tommyu.github.io/theme/css/style.css" type="text/css"/>
+
+        <link href="http://tommyu.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tommy's Notes ATOM Feed"/>
+
+
+
+        <link href="http://tommyu.github.io/feeds/tools.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Tommy's Notes tools ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://tommyu.github.io/" class="navbar-brand">
+Tommy's Notes            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://tommyu.github.io/category/golang.html">Golang</a>
+                        </li>
+                        <li >
+                            <a href="http://tommyu.github.io/category/python.html">Python</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://tommyu.github.io/category/tools.html">Tools</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://tommyu.github.io/github-blog-by-pelican.html"
+                       rel="bookmark"
+                       title="Permalink to github 博客搭建过程">
+                        github 博客搭建过程
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-12-01T10:20:00+08:00"> 二 01 十二月 2015</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://tommyu.github.io/tag/tools.html">tools</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h1>github 博客搭建过程(pelican)</h1>
+<h2>准备工作</h2>
+<h3>github account</h3>
+<p>注册帐号， 然后依照这个<a href="https://pages.github.com/">指引</a>创建一个新的仓库，注意命名（username.github.io）;</p>
+<h3>peclian</h3>
+<p>这是一个基于python2.7(及以上)的静态页生成工具。注意，是静态页。github博客貌似只支持<strong>静态页</strong>。</p>
+<ul>
+<li>install</li>
+</ul>
+<div class="highlight"><pre><span></span>pip install pelican
+pip install markdown
+</pre></div>
+
+
+<ul>
+<li>创建blog项目路径，并初始化</li>
+</ul>
+<div class="highlight"><pre><span></span>mkdir my_blog
+cd my_blog
+pelican-quickstart
+</pre></div>
+
+
+<p>这样子就会在my_blog路径下敏初始化网站的静态页面结构（初始版），结构如下：</p>
+<div class="highlight"><pre><span></span>├── content  # markdown文件所存放的路径。
+├── develop_server.sh  
+├── fabfile.py  
+├── Makefile  
+├── output  #实际生成静态html项目的路径。
+├── pelicanconf.py  #配置文件
+└── publishconf.py  
+</pre></div>
+
+
+<blockquote>
+<p>注意，在生成向导中选择好自己的github域名，即:What is your URL prefix? (see above example; no trailing slash) http://username.github.io 。 同时： Do you want to upload your website using GitHub Pages? (y/N) Y</p>
+</blockquote>
+<h3>pelican-themes</h3>
+<p>pelican搭配使用的主题，大多基于bootstrap进行一定的定制，可以根据喜好选择<a href="http://www.pelicanthemes.com/">相应的风格</a>.</p>
+<ul>
+<li>下载并注册主题</li>
+</ul>
+<div class="highlight"><pre><span></span>cd ../
+git clone https://github.com/getpelican/pelican-themes.git
+cd pelican-themes
+pelican-themes -i pelican-bootstrap3
+</pre></div>
+
+
+<ul>
+<li>启用主题，编辑上面的pelicanconf.py文件， 添加以下代码</li>
+</ul>
+<div class="highlight"><pre><span></span>THEME=&#39;pelican-bootstrap3&#39;
+</pre></div>
+
+
+<h3>pelican plugins</h3>
+<ul>
+<li>下载插件</li>
+</ul>
+<div class="highlight"><pre><span></span>git clone https://github.com/getpelican/pelican-plugins.git pelican-plugins
+</pre></div>
+
+
+<ul>
+<li>adding in pelicanconf.py</li>
+<li>搜索插件依赖库</li>
+</ul>
+<div class="highlight"><pre><span></span>pip install beautifulsoup4
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>PLUGIN_PATHS = [&#39;/path/to/git/pelican-plugins&#39;, ]
+PLUGINS = [&#39;i18n_subsites&#39;, ]
+JINJA_ENVIRONMENT = {
+    &#39;extensions&#39;: [&#39;jinja2.ext.i18n&#39;, &#39;tipue_search&#39;],
+}
+</pre></div>
+
+
+<blockquote>
+<p>obviously you need to change the '/path/to/git/ part ;)</p>
+</blockquote>
+<h2>创建第一个页面</h2>
+<div class="highlight"><pre><span></span>cd ../my_blog/content
+vi hello.md
+</pre></div>
+
+
+<p>添加以下代码：</p>
+<div class="highlight"><pre><span></span><span class="n">Title</span><span class="o">:</span> <span class="n">hello</span> <span class="n">world</span>
+<span class="n">Date</span><span class="o">:</span> <span class="mi">2015</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">03</span> <span class="mi">10</span><span class="o">:</span><span class="mi">20</span>
+<span class="n">Category</span><span class="o">:</span> <span class="n">Markdown</span>
+<span class="n">Tags</span><span class="o">:</span> <span class="n">Markdown</span>
+<span class="n">Slug</span><span class="o">:</span> <span class="n">my</span><span class="o">-</span><span class="kd">super</span><span class="o">-</span><span class="n">post</span>
+<span class="n">Authors</span><span class="o">:</span> <span class="n">your</span> <span class="n">name</span>
+<span class="n">Summary</span><span class="o">:</span> <span class="n">pelican</span> <span class="n">markdown</span> <span class="n">demo</span>
+<span class="err">#</span> <span class="n">hello</span> <span class="n">world</span>
+</pre></div>
+
+
+<p>保存，退出编辑。</p>
+<p>执行以下指令生成html,并运行本地的服务（可以在http://localhost:8000查看效果）</p>
+<div class="highlight"><pre><span></span>cd ../
+pelican content/
+cd output
+python -m pelican.server
+</pre></div>
+
+
+<h2>部署</h2>
+<h3>手工</h3>
+<p>上传代码到github对应的仓库</p>
+<div class="highlight"><pre><span></span>git clone git@github.com:username/username.github.io.git
+</pre></div>
+
+
+<blockquote>
+<p>下载仓库代码(注意username的替换）</p>
+</blockquote>
+<p>在pelican content生成html后， output目录结构（只到3层），如下：</p>
+<div class="highlight"><pre><span></span>├── output  
+│   ├── archives.html  
+│   ├── author  
+│   │   └── your-name.html  
+│   ├── authors.html  
+│   ├── categories.html  
+│   ├── category  
+│   │   └── markdown.html  
+│   ├── index.html  
+│   ├── my-super-post.html  
+│   ├── tag  
+│   │   └── markdown.html  
+│   ├── tags.html  
+│   └── theme  
+│       ├── css  
+│       ├── fonts  
+│       ├── js  
+│       └── tipuesearch  
+</pre></div>
+
+
+<p>将output目录下的文件全部拷贝到本地的username.github.io 路径</p>
+<div class="highlight"><pre><span></span>cp -R output/*  username.github.io/
+cd username.github.io/
+git add .
+git commit -a -m &#39;init&#39;
+git push -u origin master
+</pre></div>
+
+
+<p>打开地址： http://username.github.io 查看效果。</p>
+<h3>自动化</h3>
+<p><strong>利用MakeFile一键部署</strong></p>
+<p>生成html，拷贝到git本地目录，然后git commit可以写脚本完成。然而在pelican这里有一个现成的MakeFile文件可以用。 修改下MakeFile，我的demo如下： publish段：增加了cp指令一行，即将生成的html拷贝到本地git路径下。</p>
+<ul>
+<li>publish section</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nf">publish</span><span class="o">:</span>
+        <span class="k">$(</span>PELICAN<span class="k">)</span> <span class="k">$(</span>INPUTDIR<span class="k">)</span> -o <span class="k">$(</span>OUTPUTDIR<span class="k">)</span> -s <span class="k">$(</span>PUBLISHCONF<span class="k">)</span> <span class="k">$(</span>PELICANOPTS<span class="k">)</span>
+        cp -R <span class="k">$(</span>OUTPUTDIR<span class="k">)</span>/* <span class="k">$(</span>GIT_LOCAL_DIR<span class="k">)</span> 
+</pre></div>
+
+
+<ul>
+<li>github section
+github段:没用ghp-import指令，懒得安装这个多余的包。作为弥补，修改了publish段，如上。同时增加cd到git路径指令。</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="n">github</span><span class="p">:</span> <span class="n">publish</span>
+        <span class="c1">#ghp-import -m &quot;Generate Pelican site&quot; -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)</span>
+        <span class="n">cd</span> <span class="err">$</span><span class="p">(</span><span class="n">GIT_LOCAL_DIR</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="n">git</span> <span class="n">add</span> <span class="o">.&amp;&amp;</span><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;+&#39;</span><span class="o">&amp;&amp;</span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="err">$</span><span class="p">(</span><span class="n">GITHUB_PAGES_BRANCH</span><span class="p">)</span>
+</pre></div>
+
+
+<ul>
+<li>部署</li>
+</ul>
+<div class="highlight"><pre><span></span>make github 
+</pre></div>
+
+
+<p>这样以后可以专注于写作。</p>
+<h2>关于搜索功能</h2>
+<p>由于是静态站，所以搜索的实现落在了客户端。
+思路有不外乎：
+1. 解析index.html页面并操作dom元素
+2. 利用插件生成xml/json格式的sitemap，然后ajax请求这些资源并解析，渲染页面。</p>
+<p>我的实现方式是2，利用插件tipue_json在生成html时附带生成一个json文件。
+拷贝index.html页，命名为search.html，做少量修改（略）, 然后在里面加入下面这段代码：</p>
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="o">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">do_search</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">getParameterByName</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[\[]/</span><span class="p">,</span> <span class="s2">&quot;\\[&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[\]]/</span><span class="p">,</span> <span class="s2">&quot;\\]&quot;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s2">&quot;[\\?&amp;]&quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;=([^&amp;#]*)&quot;</span><span class="p">),</span>
+        <span class="nx">results</span> <span class="o">=</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">results</span> <span class="o">===</span> <span class="kc">null</span> <span class="o">?</span> <span class="s2">&quot;&quot;</span> <span class="o">:</span> <span class="nb">decodeURIComponent</span><span class="p">(</span><span class="nx">results</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\+/g</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">do_search</span><span class="p">(){</span>
+        <span class="kd">var</span> <span class="nx">result_tmplate</span><span class="o">=</span><span class="s2">&quot;&lt;article&gt;&lt;h2&gt;&lt;a href=&#39;{{url}}&#39;&gt;{{title}}&lt;/a&gt;&lt;/h2&gt;&lt;/article&gt;&quot;</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">search_target</span> <span class="o">=</span> <span class="nx">getParameterByName</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">found_something</span><span class="o">=</span><span class="kc">false</span><span class="p">;</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#tipue_search_input&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="nx">search_target</span><span class="p">);</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+          <span class="nx">dataType</span><span class="o">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+          <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;/tipuesearch_content.json&quot;</span><span class="p">,</span>
+          <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+
+                <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">data</span><span class="p">.</span><span class="nx">pages</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+                <span class="p">{</span>
+                        <span class="k">if</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">pages</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">title</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">search_target</span><span class="p">)</span><span class="o">!=-</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="p">{</span>
+                                <span class="kd">var</span> <span class="nx">result_html</span> <span class="o">=</span> <span class="nx">result_tmplate</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;{{title}}&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">pages</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">title</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;{{url}}&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">pages</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">url</span><span class="p">)</span>
+                                <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search_result&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">result_html</span><span class="p">);</span>
+                                <span class="nx">found_something</span><span class="o">=</span><span class="kc">true</span><span class="p">;</span>
+                        <span class="p">}</span>
+                <span class="p">}</span>
+                <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">found_something</span><span class="p">)</span>
+                <span class="p">{</span>
+                        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search_result&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;&lt;h2&gt;抱歉! 没有找到任何匹配的文章哦。。。&lt;/h2&gt;&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">});</span>
+<span class="p">}</span>
+<span class="o">&lt;</span><span class="err">/script&gt;</span>
+</pre></div>
+
+
+<h2>其他</h2>
+<p>可以根据添加评论系统，第三方图片接入等等。
+ps:关于自带的disqus代码可能不是最新的。需要自己更新下，修改下theme主题插件的相关模板。
+试用了uyan（友言）和disqus，发现ab测试下，uyan快100毫秒。不过发现了一个虫（删掉文章后，相关文章链接仍然被收藏并显示出来了），最后还是选择了disqus。</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Tommy.Yu
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://tommyu.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://tommyu.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://tommyu.github.io/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
